@@ -27,7 +27,7 @@ export class StoreController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.storeService.findOne(+id);
+    return this.storeService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,6 +37,6 @@ export class StoreController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.storeService.remove(+id);
+    return this.storeService.remove(id);
   }
 }

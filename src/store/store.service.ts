@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,6 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class StoreService {
   constructor(private prisma: PrismaService) {}
 
+  // create restaurant
   async create(createStoreDto: CreateStoreDto) {
     const existingStore = await this.prisma.store.findFirst({
       where: {
@@ -32,19 +38,50 @@ export class StoreService {
     return newStore;
   }
 
-  findAll() {
-    return `This action returns all store`;
+  // all store
+  async findAll() {
+    const allRestaurantList = await this.prisma.store.findMany();
+
+    return allRestaurantList;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} store`;
+  // single store by id
+  async findOne(id: string) {
+    const singleRestaurant = await this.prisma.store.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return singleRestaurant;
   }
 
+  // edit a store
   update(id: number, updateStoreDto: UpdateStoreDto) {
     return `This action updates a #${id} store`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} store`;
+  // delete a store
+  async remove(id: string) {
+    const existingStore = await this.prisma.store.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingStore) {
+      throw new NotFoundException(`No Store data found with these ${id}`);
+    }
+
+    const deleteStore = await this.prisma.store.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (deleteStore)
+      return {
+        message: 'Store Deleted Successfully',
+      };
   }
 }
