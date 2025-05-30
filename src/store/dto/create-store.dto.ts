@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { CommissionType, RestaurantStatus, StoreType } from '@prisma/client';
 import {
   IsBoolean,
@@ -58,6 +59,9 @@ export class CreateStoreDto {
 
   @IsEnum(RestaurantStatus)
   status: RestaurantStatus;
+
+  @IsBoolean()
+  openForOrder: boolean;
 
   @IsEnum(CommissionType)
   commissionType: CommissionType;

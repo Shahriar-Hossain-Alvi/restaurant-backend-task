@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -57,8 +56,23 @@ export class StoreService {
   }
 
   // edit a store
-  update(id: number, updateStoreDto: UpdateStoreDto) {
-    return `This action updates a #${id} store`;
+  async update(id: string, updateStoreDto: UpdateStoreDto) {
+    const existingStore = await this.prisma.store.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!existingStore) {
+      throw new NotFoundException(`Store with this ${id} ID not found.`);
+    }
+
+    const updatedStore = await this.prisma.store.update({
+      where: { id },
+      data: { ...updateStoreDto },
+    });
+
+    return updatedStore;
   }
 
   // delete a store

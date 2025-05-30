@@ -42,9 +42,9 @@ model Store {
   //basic infos
   id                      String           @id @default(uuid())
   businessOwnerId         String
-  storeName               String 
-  phoneNumber             String @unique
-  email                   String @unique
+  storeName               String
+  phoneNumber             String           @unique
+  email                   String           @unique
   hubName                 String
   storeType               StoreType
   minOrderAmount          Int
@@ -56,6 +56,7 @@ model Store {
   restaurantMouUrl        String?
   restaurantMouExpiryDate DateTime?
   status                  RestaurantStatus @default(INACTIVE)
+  openForOrder            Boolean          @default(false)
 
   // commission, vat, penalty
   commissionType                   CommissionType
