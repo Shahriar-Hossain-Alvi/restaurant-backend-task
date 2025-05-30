@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
+import { CreateStoreDto } from './dto/create-store.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class StoreService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createStoreDto: CreateStoreDto) {
+   create(createStoreDto: CreateStoreDto) {
     return 'This action adds a new store';
   }
 
