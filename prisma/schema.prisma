@@ -87,7 +87,7 @@ model Store {
 // store category table
 model StoreCategory {
   id            String    @id @default(uuid())
-  category_name String
+  categoryName String
   storeType     StoreType
 
   //relation with mapping table
