@@ -32,7 +32,6 @@ enum RestaurantStatus {
   DEAL_CLOSED
 }
 
-
 // store/restaurant model
 model Store {
   //basic infos
@@ -82,26 +81,21 @@ model Store {
   StoreCategoryMapping StoreCategoryMapping[]
 }
 
-
-
 // store category table
 model StoreCategory {
-  id            String    @id @default(uuid())
-  categoryName String
-  storeType     StoreType
+  id           String    @id @default(uuid())
+  categoryName String   @unique
+  storeType    StoreType
 
   //relation with mapping table
   StoreCategoryMapping StoreCategoryMapping[]
 }
 
-
-
-
 // store category mapping table
 model StoreCategoryMapping {
-  id         String         @id @default(uuid())
-  store      Store          @relation(fields: [storeId], references: [id])
+  id         String        @id @default(uuid())
+  store      Store         @relation(fields: [storeId], references: [id])
   storeId    String
-  category   StoreCategory  @relation(fields: [categoryId], references: [id])
+  category   StoreCategory @relation(fields: [categoryId], references: [id])
   categoryId String
 }
