@@ -32,10 +32,6 @@ enum RestaurantStatus {
   DEAL_CLOSED
 }
 
-enum CategoryStatus {
-  ACTIVE
-  INACTIVE
-}
 
 // store/restaurant model
 model Store {
@@ -86,6 +82,8 @@ model Store {
   StoreCategoryMapping StoreCategoryMapping[]
 }
 
+
+
 // store category table
 model StoreCategory {
   id            String    @id @default(uuid())
@@ -96,6 +94,9 @@ model StoreCategory {
   StoreCategoryMapping StoreCategoryMapping[]
 }
 
+
+
+
 // store category mapping table
 model StoreCategoryMapping {
   id         String         @id @default(uuid())
@@ -103,5 +104,4 @@ model StoreCategoryMapping {
   storeId    String
   category   StoreCategory  @relation(fields: [categoryId], references: [id])
   categoryId String
-  status     CategoryStatus @default(ACTIVE)
 }

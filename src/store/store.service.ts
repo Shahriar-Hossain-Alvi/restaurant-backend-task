@@ -37,7 +37,7 @@ export class StoreService {
     return newStore;
   }
 
-  // all store
+  // all store data for LISTS PAGE
   async findAll() {
     const allRestaurantList = await this.prisma.store.findMany();
 
