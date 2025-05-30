@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,8 +7,29 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class StoreService {
   constructor(private prisma: PrismaService) {}
 
-   create(createStoreDto: CreateStoreDto) {
-    return 'This action adds a new store';
+  async create(createStoreDto: CreateStoreDto) {
+    const existingStore = await this.prisma.store.findFirst({
+      where: {
+        OR: [
+          { email: createStoreDto.email },
+          { phoneNumber: createStoreDto.phoneNumber },
+        ],
+      },
+    });
+
+    if (existingStore) {
+      throw new BadRequestException(
+        'Store with same email, phone number already exists',
+      );
+    }
+
+    const newStore = await this.prisma.store.create({
+      data: {
+        ...createStoreDto,
+      },
+    });
+
+    return newStore;
   }
 
   findAll() {

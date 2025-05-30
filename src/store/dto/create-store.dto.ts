@@ -17,6 +17,9 @@ export class CreateStoreDto {
   @IsString()
   phoneNumber: string;
 
+  @IsString()
+  businessOwnerId: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;

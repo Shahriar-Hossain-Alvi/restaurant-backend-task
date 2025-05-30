@@ -42,9 +42,9 @@ model Store {
   //basic infos
   id                      String           @id @default(uuid())
   businessOwnerId         String
-  storeName               String
-  phoneNumber             String
-  email                   String
+  storeName               String 
+  phoneNumber             String @unique
+  email                   String @unique
   hubName                 String
   storeType               StoreType
   minOrderAmount          Int
@@ -79,7 +79,7 @@ model Store {
 
   // timestamps
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 
   // relation with mapping table
   StoreCategoryMapping StoreCategoryMapping[]
