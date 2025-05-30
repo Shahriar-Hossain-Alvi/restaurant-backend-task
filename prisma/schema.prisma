@@ -32,6 +32,11 @@ enum RestaurantStatus {
   DEAL_CLOSED
 }
 
+enum CategoryStatus {
+  ACTIVE
+  INACTIVE
+}
+
 // store/restaurant model
 model Store {
   //basic infos
@@ -43,9 +48,9 @@ model Store {
   hubName                 String
   storeType               StoreType
   minOrderAmount          Int
-  operatingHourStart      String // date time
+  operatingHourStart      String
   operatingHourEnd        String
-  keywords                String // string array?
+  keywords                String
   cuisines                String
   bannerImageUrl          String
   restaurantMouUrl        String?
@@ -69,10 +74,33 @@ model Store {
 
   // meta 
   metaTitle       String?
-  metaTags        String? // should I use string[]
+  metaTags        String?
   metaDescription String?
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime
+
+  // relation with mapping table
+  StoreCategoryMapping StoreCategoryMapping[]
+}
+
+// store category table
+model StoreCategory {
+  id            String    @id @default(uuid())
+  category_name String
+  storeType     StoreType
+
+  //relation with mapping table
+  StoreCategoryMapping StoreCategoryMapping[]
+}
+
+// store category mapping table
+model StoreCategoryMapping {
+  id         String         @id @default(uuid())
+  store      Store          @relation(fields: [storeId], references: [id])
+  storeId    String
+  category   StoreCategory  @relation(fields: [categoryId], references: [id])
+  categoryId String
+  status     CategoryStatus @default(ACTIVE)
 }
