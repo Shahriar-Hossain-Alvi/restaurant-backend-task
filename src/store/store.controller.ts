@@ -25,6 +25,11 @@ export class StoreController {
     return this.storeService.findAll();
   }
 
+  @Get('/allStoreData')
+  findAllStoreData() {
+    return this.storeService.findAllStoreData();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.storeService.findOne(id);

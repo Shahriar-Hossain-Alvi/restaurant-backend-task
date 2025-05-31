@@ -32,6 +32,11 @@ enum RestaurantStatus {
   DEAL_CLOSED
 }
 
+enum StoreCategoryMappingStatus {
+  ACTIVE
+  INACTIVE
+}
+
 // store/restaurant model
 model Store {
   //basic infos
@@ -84,7 +89,7 @@ model Store {
 // store category table
 model StoreCategory {
   id           String    @id @default(uuid())
-  categoryName String   @unique
+  categoryName String    @unique
   storeType    StoreType
 
   //relation with mapping table
@@ -93,9 +98,12 @@ model StoreCategory {
 
 // store category mapping table
 model StoreCategoryMapping {
-  id         String        @id @default(uuid())
-  store      Store         @relation(fields: [storeId], references: [id])
+  id         String                     @id @default(uuid())
+  store      Store                      @relation(fields: [storeId], references: [id])
   storeId    String
-  category   StoreCategory @relation(fields: [categoryId], references: [id])
+  category   StoreCategory              @relation(fields: [categoryId], references: [id])
   categoryId String
+  status     StoreCategoryMappingStatus @default(ACTIVE)
+
+  @@unique([storeId, categoryId]) // same store with same category can not be duplicate
 }

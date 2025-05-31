@@ -39,6 +39,29 @@ export class StoreService {
 
   // all store data for LISTS PAGE
   async findAll() {
+    const allRestaurantList = await this.prisma.store.findMany({
+      select: {
+        createdAt: true,
+        bannerImageUrl: true,
+        storeName: true,
+        id: true,
+        operatingHourStart: true,
+        operatingHourEnd: true,
+        hubName: true,
+        openForOrder: true,
+        commissionAmount: true,
+        commissionType: true,
+        storeType: true,
+        phoneNumber: true,
+        restaurantMouUrl: true,
+      },
+    });
+
+    return allRestaurantList;
+  }
+
+  // all storedata
+  async findAllStoreData() {
     const allRestaurantList = await this.prisma.store.findMany();
 
     return allRestaurantList;
