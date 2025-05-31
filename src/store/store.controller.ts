@@ -15,19 +15,27 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 
+  // create store
   @Post()
   create(@Body() createStoreDto: CreateStoreDto) {
     return this.storeService.create(createStoreDto);
   }
 
+  // all store data for lists page
   @Get()
   findAll() {
     return this.storeService.findAll();
   }
 
+  // all store data with every field in the model
   @Get('/allStoreData')
   findAllStoreData() {
     return this.storeService.findAllStoreData();
+  }
+
+  @Get('/storeCategory')
+  findAllStoreWithCategories() {
+    return this.storeService.findStoreWithCategories();
   }
 
   @Get(':id')

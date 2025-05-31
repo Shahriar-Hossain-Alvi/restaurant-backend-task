@@ -121,4 +121,16 @@ export class StoreService {
         message: 'Store Deleted Successfully',
       };
   }
+
+  // get store data with categories
+  // StoreService
+  async findStoreWithCategories() {
+    const storeWithCategory = await this.prisma.store.findMany({
+      include: {
+        StoreCategoryMapping: true,
+      },
+    });
+
+    return storeWithCategory;
+  }
 }
