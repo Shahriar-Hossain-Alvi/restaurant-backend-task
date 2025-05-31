@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { StoreCategoryMappingService } from './store-category-mapping.service';
 import { CreateStoreCategoryMappingDto } from './dto/create-store-category-mapping.dto';
 
@@ -15,10 +15,10 @@ export class StoreCategoryMappingController {
     );
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.storeCategoryMappingService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.storeCategoryMappingService.findAll();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

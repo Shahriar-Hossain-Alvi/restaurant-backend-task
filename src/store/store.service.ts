@@ -39,7 +39,7 @@ export class StoreService {
 
   // all store data for LISTS PAGE
   async findAll() {
-    const allRestaurantList = await this.prisma.store.findMany({
+    const allStoreList = await this.prisma.store.findMany({
       select: {
         createdAt: true,
         bannerImageUrl: true,
@@ -57,7 +57,7 @@ export class StoreService {
       },
     });
 
-    return allRestaurantList;
+    return allStoreList;
   }
 
   // all storedata
@@ -126,7 +126,15 @@ export class StoreService {
   async findStoreWithCategories() {
     const storeWithCategory = await this.prisma.store.findMany({
       include: {
-        StoreCategoryMapping: true,
+        StoreCategoryMapping: {
+          select: {
+            category: {
+              select: {
+                categoryName: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -136,9 +144,6 @@ export class StoreService {
   // get stores based on categories
   async findStoreByCategories(categoryName: string) {
     const lowerCaseCategoryName = categoryName.trim().toLowerCase();
-
-    console.log(categoryName);
-    console.log(lowerCaseCategoryName);
 
     const storesByCategories = await this.prisma.store.findMany({
       where: {
@@ -153,10 +158,34 @@ export class StoreService {
           },
         },
       },
-      include: {
+      // include: {
+      //   StoreCategoryMapping: {
+      //     include: {
+      //       category: true,
+      //     },
+      //   },
+      // },
+      select: {
+        id: true,
+        storeName: true,
+        bannerImageUrl: true,
+        commissionAmount: true,
+        commissionType: true,
         StoreCategoryMapping: {
-          include: {
-            category: true,
+          where: {
+            category: {
+              categoryName: {
+                equals: lowerCaseCategoryName,
+                mode: 'insensitive',
+              },
+            },
+          },
+          select: {
+            category: {
+              select: {
+                categoryName: true,
+              },
+            },
           },
         },
       },

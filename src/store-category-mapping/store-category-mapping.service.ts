@@ -61,9 +61,9 @@ export class StoreCategoryMappingService {
     return newMapping;
   }
 
-  // findAll() {
-  //   return `This action returns all storeCategoryMapping`;
-  // }
+  findAll() {
+    return this.prisma.storeCategoryMapping.findMany();
+  }
 
   // findOne(id: number) {
   //   return `This action returns a #${id} storeCategoryMapping`;
