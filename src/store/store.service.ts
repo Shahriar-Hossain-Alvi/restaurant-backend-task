@@ -123,7 +123,6 @@ export class StoreService {
   }
 
   // get store data with categories
-  // StoreService
   async findStoreWithCategories() {
     const storeWithCategory = await this.prisma.store.findMany({
       include: {
@@ -132,5 +131,37 @@ export class StoreService {
     });
 
     return storeWithCategory;
+  }
+
+  // get stores based on categories
+  async findStoreByCategories(categoryName: string) {
+    const lowerCaseCategoryName = categoryName.trim().toLowerCase();
+
+    console.log(categoryName);
+    console.log(lowerCaseCategoryName);
+
+    const storesByCategories = await this.prisma.store.findMany({
+      where: {
+        StoreCategoryMapping: {
+          some: {
+            category: {
+              categoryName: {
+                equals: lowerCaseCategoryName,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+      },
+      include: {
+        StoreCategoryMapping: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+
+    return storesByCategories;
   }
 }

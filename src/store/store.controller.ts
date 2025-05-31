@@ -38,6 +38,12 @@ export class StoreController {
     return this.storeService.findStoreWithCategories();
   }
 
+  @Get('/storeByCategories/:categoryName')
+  findStoresByCategories(@Param('categoryName') categoryName: string) {
+    console.log('Controller', categoryName);
+    return this.storeService.findStoreByCategories(categoryName);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.storeService.findOne(id);
