@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -23,7 +23,7 @@ export class StoreService {
     });
 
     if (existingStore) {
-      throw new BadRequestException(
+      throw new ConflictException(
         'Store with same email, phone number already exists',
       );
     }
@@ -158,13 +158,6 @@ export class StoreService {
           },
         },
       },
-      // include: {
-      //   StoreCategoryMapping: {
-      //     include: {
-      //       category: true,
-      //     },
-      //   },
-      // },
       select: {
         id: true,
         storeName: true,

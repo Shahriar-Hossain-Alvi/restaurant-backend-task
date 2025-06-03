@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -27,7 +27,7 @@ export class StoreCategoryService {
     });
 
     if (existingStoreCategory) {
-      throw new BadRequestException(
+      throw new ConflictException(
         `A ${createStoreCategoryDto.categoryName} category already exists`,
       );
     }

@@ -65,9 +65,51 @@ export class StoreCategoryMappingService {
     return this.prisma.storeCategoryMapping.findMany();
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} storeCategoryMapping`;
-  // }
+  async findOne(category: string) {
+    const lowerCaseCategory = category.trim().toLowerCase();
+
+    const findStoreByCategory = await this.prisma.storeCategoryMapping.findMany(
+      {
+        where: {
+          category: {
+            categoryName: lowerCaseCategory,
+          },
+        },
+
+        include: {
+          category: {
+            select: {
+              categoryName: true,
+            },
+          },
+          store: {
+            select: {
+              storeName: true,
+              address: true,
+              hubName: true,
+            },
+          },
+        },
+
+        // select: {
+        //   category: {
+        //     select: {
+        //       categoryName: true,
+        //     },
+        //   },
+
+        //   store: {
+        //     select: {
+        //       storeName: true,
+        //       hubName: true,
+        //     },
+        //   },
+        // },
+      },
+    );
+
+    return findStoreByCategory;
+  }
 
   // update(
   //   id: number,
